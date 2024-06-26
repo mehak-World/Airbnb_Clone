@@ -1,0 +1,39 @@
+<% layout("layouts/boilerplate.ejs") %>
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sign Up</title>
+</head>
+<body>
+    
+    <form action="/signup" method="POST" class = "offset-3 w-50">
+        <h3>Sign Up</h3>
+        <br>
+        <div class="mb-3">
+            <label for="username" class="form-label">Username</label>
+            <input type="text" id="username" name="username" class="form-control" required>
+        </div>
+        <div class="mb-3">
+            <label for="email" class="form-label">Email</label>
+            <input type="email" id="email" name="email" class="form-control" required>
+        </div>
+        <div class="mb-3">
+            <label for="password" class="form-label">Password</label>
+            <input type="password" id="password" name="password" class="form-control" required>
+        </div>
+        <button type="submit" class = "btn">Sign Up</button>
+        <br>
+        <br>
+        <h4>OR</h4>
+       
+    
+    </form>
+    <form method = "get" action = "/auth/facebook" class = "offset-3">
+        <button class = "btn btn-primary" id = "facebook">Sign In with Facebook</button>
+    </form>
+    
+</body>
+</html>

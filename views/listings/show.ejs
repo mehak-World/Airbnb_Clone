@@ -1,0 +1,132 @@
+<% layout("layouts/boilerplate") -%>
+<body>
+  <% if(success && success.length){ %>
+    <div class="alert alert-success alert-dismissible fade show" role="alert">
+      <%= success %>
+      <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+     
+    <% } %>
+
+    <% if(error && error.length){ %>
+      <div class="alert alert-danger alert-dismissible fade show" role="alert">
+        <%= error %>
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+      </div>
+       
+      <% } %>
+  <div class="box offset-3">
+    <h3>Listing Details</h3>
+    <br />
+    <img src="<%= listing.image %>" height="200px" width="400px" />
+    <br />
+    <br />
+
+    <p><b><%= listing.title %></b></p>
+    <p><%= listing.description %></p>
+    <p>&#8377; <%= listing.price.toLocaleString('en-IN') %></p>
+    <p><%= listing.location %></p>
+    <p><%= listing.country %></p>
+<% if(user){ %>
+    <div class="buttons">
+      <form action="/listings/<%= listing.id %>/edit">
+        <button class="btn">Edit Listing</button>
+      </form>
+      <form action="/listings/<%= listing.id %>/delete">
+        <button class="btn">Delete Listing</button>
+      </form>
+    </div>
+    
+    <br />
+    <br />
+    <div class="review">
+      <h4>Leave a Review</h4>
+      <br />
+      <form
+        method="post"
+        action="/listings/<%= listing.id %>/reviews"
+        class="needs-validation"
+        novalidate
+      >
+        <div class="reviews">
+          <label for="rating">Rating</label>
+          <input
+            type="range"
+            min="1"
+            max="5"
+            id="rating"
+            name="review[rating]"
+          />
+          <div class="valid-feedback">Looks good!</div>
+        </div>
+        <div class="reviews">
+          <label for="comment">Comment</label>
+          <textarea
+            name="review[comment]"
+            id="comment"
+            cols="50"
+            rows="2"
+            class="form-control"
+          ></textarea>
+          <div class="valid-feedback">Looks good!</div>
+          <div class="invalid-feedback">Enter a valid comment.</div>
+        </div>
+        <button type="submit" class="btn" id="review-submit">Submit</button>
+      </form>
+    </div>
+    <br />
+    <hr />
+    <% } %>
+    <div class="all_reviews">
+      <% if(listing.reviews.length) {%>
+      <h4>All Reviews</h4>
+
+      <div class="review-container">
+        <% for(let review of listing.reviews){ %>
+        <div class="card" style="width: 15rem; background: rgb(248, 226, 230)">
+          <div class="card-body">
+            <div
+              class="icon"
+              style="display: flex; justify-content: space-between"
+            >
+              <button
+                type="button"
+                class="edit_btn"
+              >
+                <i class="fa-solid fa-pen-to-square"></i>
+              </button>
+              <a href="/listings/<%= listing.id %>/reviews/<%= review.id %>"
+                ><i class="fa-solid fa-dumpster"></i
+              ></a>
+            </div>
+            <form method="post" action="/listings/<%= listing.id %>/reviews/<%= review.id %>">
+              <p class="card-text">
+                <b>Rating: </b
+                ><input
+                  id="review_rating" name = "review[rating]"
+                  value="<%= review.rating %>"
+                  disabled
+                /> stars
+              </p>
+              <p class="card-text">
+                <b>Comment: </b
+                ><textarea id="review_comment" name = "review[comment]" disabled>
+<%= review.comment %></textarea
+                >
+              </p>
+
+              <button id="edit" class="btn save_btn">Edit</button>
+            </form>
+            <p class="card-text" style="text-align: right">
+              <%= review.createdAt.getFullYear() + "-" +
+              (review.createdAt.toLocaleString('default', { month: 'short' })) +
+              "-" + review.createdAt.getDate(); %>
+            </p>
+          </div>
+        </div>
+        <% } %>
+      </div>
+      <% } %>
+    </div>
+  </div>
+</body>

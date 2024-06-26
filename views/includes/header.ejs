@@ -1,0 +1,33 @@
+<nav class="navbar navbar-expand-lg bg-body-light border-bottom">
+    <div class="container-fluid">
+        <i class="fa-solid fa-compass"></i>
+      <a class="navbar-brand" href="#">WonderWithUs</a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+        
+          <li class="nav-item">
+            <a class="nav-link" href="/listings">All Listings</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="/listings/create">Create a new Listing</a>
+          </li>
+        </ul>
+        <% if(!user) { %>
+        <form method = "get" action = "/signup">
+          <button class = "btn" style = "margin-right: 4px"> Sign Up </button>
+        </form>
+        
+        <form method = "get" action = "/login">
+          <button class = "btn" style = "margin-right: 4px"> Login </button>
+        </form>
+        <% } else {%>
+        <form method = "post" action = "/logout">
+          <button class = "btn"> Logout </button>
+        </form>
+        <% } %>
+      </div>
+    </div>
+  </nav>

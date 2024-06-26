@@ -1,0 +1,34 @@
+<% layout('layouts/boilerplate') -%>
+<body>
+    <% if(success && success.length){ %>
+      <div class="alert alert-success alert-dismissible fade show" role="alert">
+        <%= success %>
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+      </div>
+       
+      <% } %>
+
+      <% if(error && error.length){ %>
+        <div class="alert alert-danger alert-dismissible fade show" role="alert">
+          <%= error %>
+          <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+         
+        <% } %>
+    <div class="card-container" >
+        <% for(let listing of listings){ %>
+            <div class="card" style="width: 16rem; margin: 10px">
+                <a href = "/listings/<%= listing.id %>">
+                  <img src="<%= listing.image %>" class="card-img-top" width = "300px" height = "200px">
+                  <div class="img-overlay"></div>
+                </a>
+                
+                <div class="card-body">
+                  <h6 class="card-title"><%= listing.title %></h6>
+                  <p class="card-text">&#8377; <%= listing.price.toLocaleString('en-IN') %> /night</p>
+                </div>
+              </div>
+        <% } %>
+    </div>
+    
+</body>
