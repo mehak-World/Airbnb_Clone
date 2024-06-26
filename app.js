@@ -98,7 +98,7 @@ passport.use(new LocalStrategy(
 passport.use(new FacebookStrategy({
     clientID: '828698929196550',
     clientSecret: 'd2870b77e0918ec2a3bdd74e6a4fd66d',
-    callbackURL: "http://localhost:3000/auth/facebook/callback",
+    callbackURL: "https://web-major-project.onrender.com/auth/facebook/callback",
     profileFields: ['id', 'displayName', 'email']
 },
 async function (accessToken, refreshToken, profile, done) {
