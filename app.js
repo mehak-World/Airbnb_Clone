@@ -11,7 +11,7 @@ const flash = require("connect-flash");
 const User = require("./models/User.js");
 const passport = require("passport");
 const LocalStrategy = require('passport-local').Strategy;
-const FacebookStrategy = require('passport-facebook').Strategy;
+// const FacebookStrategy = require('passport-facebook').Strategy;
 const dotenv = require('dotenv').config();
 const db_URL = process.env.ATLASDB_URL;
 const MongoStore = require('connect-mongo');
@@ -95,48 +95,48 @@ passport.use(new LocalStrategy(
     }
 ));
 
-passport.use(new FacebookStrategy({
-    clientID: '828698929196550',
-    clientSecret: 'd2870b77e0918ec2a3bdd74e6a4fd66d',
-    callbackURL: "https://web-major-project.onrender.com/auth/facebook/callback",
-    profileFields: ['id', 'displayName', 'email']
-},
-async function (accessToken, refreshToken, profile, done) {
-    try {
-        const user = await User.findOrCreate(
-            { facebookId: profile.id },
-            {
-                username: profile.displayName,
-                email: profile.emails ? profile.emails[0].value : 'No Email',
-                facebookId: profile.id
-            }
-        );
-        done(null, user);
-    } catch (err) {
-        done(err, null);
-    }
-}
-));
+// passport.use(new FacebookStrategy({
+//     clientID: '828698929196550',
+//     clientSecret: 'd2870b77e0918ec2a3bdd74e6a4fd66d',
+//     callbackURL: "https://web-major-project.onrender.com/auth/facebook/callback",
+//     profileFields: ['id', 'displayName', 'email']
+// },
+// async function (accessToken, refreshToken, profile, done) {
+//     try {
+//         const user = await User.findOrCreate(
+//             { facebookId: profile.id },
+//             {
+//                 username: profile.displayName,
+//                 email: profile.emails ? profile.emails[0].value : 'No Email',
+//                 facebookId: profile.id
+//             }
+//         );
+//         done(null, user);
+//     } catch (err) {
+//         done(err, null);
+//     }
+// }
+// ));
 
 app.use("/listings", listingRouter);
 app.use("/listings/:id/reviews", reviewRouter );
 
-app.get("/getSessInfo", (req, res, next) => {
-    console.log(req.session);
-    next();
-    })
+// app.get("/getSessInfo", (req, res, next) => {
+//     console.log(req.session);
+//     next();
+//     })
 
-    app.get('/auth/facebook',
-        passport.authenticate('facebook'));
+//     app.get('/auth/facebook',
+//         passport.authenticate('facebook'));
       
-      app.get('/auth/facebook/callback',
-        passport.authenticate('facebook', { failureRedirect: '/listings', failureFlash: "Could not find user" }),
-        function(req, res) {
-          // Successful authentication, redirect home.
-          console.log(req.session);
-            req.flash("success", "The user has successfully logged in using facebook.")
-          res.redirect('/listings', );
-        });
+//       app.get('/auth/facebook/callback',
+//         passport.authenticate('facebook', { failureRedirect: '/listings', failureFlash: "Could not find user" }),
+//         function(req, res) {
+//           // Successful authentication, redirect home.
+//           console.log(req.session);
+//             req.flash("success", "The user has successfully logged in using facebook.")
+//           res.redirect('/listings', );
+//         });
 
 app.get("/signup", (req, res) => {
     res.render("user/signup.ejs");
