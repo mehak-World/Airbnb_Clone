@@ -32,13 +32,20 @@ module.exports.renderSignupForm = (req, res) => {
     res.render("user/signup.ejs");
 }
 
-module.exports.loginUser = passport.authenticate('local', {
-    failureRedirect: '/login',
-    failureFlash: 'Invalid username or password.'
-}), (req, res) => {
-    req.flash('success', 'Welcome back!');
-    res.redirect('/listings');
+module.exports.renderLoginForm = (req, res) => {
+    res.render("user/login.ejs");
 }
+
+module.exports.loginUser = (req, res, next) => {
+    passport.authenticate('local', {
+      failureRedirect: '/login',
+      failureFlash: true // Ensure it shows failure flash message
+    })(req, res, () => {
+      req.flash('success', 'Welcome back!');
+      res.redirect('/listings');
+    });
+  };
+  
 
 module.exports.logout = (req, res) => {
     req.logout((err) => {
@@ -51,6 +58,3 @@ module.exports.logout = (req, res) => {
     });
 }
 
-module.exports.renderLoginForm = (req, res) => {
-    res.render("user/login.ejs");
-}
