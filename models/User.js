@@ -13,9 +13,6 @@ const userSchema = new Schema({
     },
     password: {
         type: String
-    },
-    facebookId: {
-        type: String,
     }
   
 });

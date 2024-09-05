@@ -1,7 +1,7 @@
 <% layout('layouts/boilerplate') -%>
 <body>
     <div class="form-container m-5">
-        <form method = "post" action = "/listings" class = "offset-3 w-50 needs-validation" novalidate>
+        <form method = "post" enctype = "multipart/form-data"  class = "offset-3 w-50 needs-validation" novalidate>
           <h3>Create a New Listing</h3>
           <br />
         <div class="mb-3">
@@ -36,8 +36,8 @@
             </div>
           </div>
           <div class="mb-3">
-            <label for="image" class="form-label">Listing Image URL</label>
-            <input type="text" class="form-control" id="image" name = "listing[image]" >
+            <label for="image" class="form-label">Listing Image</label>
+            <input type="file" class="form-control" id="image" name = "listing[image]" >
             <div class="invalid-feedback">
               Enter a valid image URL!
             </div>

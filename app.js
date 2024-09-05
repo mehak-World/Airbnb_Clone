@@ -6,6 +6,7 @@ const ejsMate = require("ejs-mate");
 const ExpressError = require("./errors/ExpressError.js");
 const listingRouter = require("./routes/listing.js");
 const reviewRouter = require("./routes/review.js");
+const userRouter = require("./routes/user.js")
 const session = require("express-session");
 const flash = require("connect-flash");
 const User = require("./models/User.js");
@@ -95,102 +96,11 @@ passport.use(new LocalStrategy(
     }
 ));
 
-// passport.use(new FacebookStrategy({
-//     clientID: '828698929196550',
-//     clientSecret: 'd2870b77e0918ec2a3bdd74e6a4fd66d',
-//     callbackURL: "https://web-major-project.onrender.com/auth/facebook/callback",
-//     profileFields: ['id', 'displayName', 'email']
-// },
-// async function (accessToken, refreshToken, profile, done) {
-//     try {
-//         const user = await User.findOrCreate(
-//             { facebookId: profile.id },
-//             {
-//                 username: profile.displayName,
-//                 email: profile.emails ? profile.emails[0].value : 'No Email',
-//                 facebookId: profile.id
-//             }
-//         );
-//         done(null, user);
-//     } catch (err) {
-//         done(err, null);
-//     }
-// }
-// ));
+
 
 app.use("/listings", listingRouter);
 app.use("/listings/:id/reviews", reviewRouter );
-
-// app.get("/getSessInfo", (req, res, next) => {
-//     console.log(req.session);
-//     next();
-//     })
-
-//     app.get('/auth/facebook',
-//         passport.authenticate('facebook'));
-      
-//       app.get('/auth/facebook/callback',
-//         passport.authenticate('facebook', { failureRedirect: '/listings', failureFlash: "Could not find user" }),
-//         function(req, res) {
-//           // Successful authentication, redirect home.
-//           console.log(req.session);
-//             req.flash("success", "The user has successfully logged in using facebook.")
-//           res.redirect('/listings', );
-//         });
-
-app.get("/signup", (req, res) => {
-    res.render("user/signup.ejs");
-})
-
-app.post('/signup', async (req, res, next) => {
-    try {
-        const { username, email, password } = req.body;
-        const user = await User.findOne({email});
-        console.log(user);
-        if(user){
-            req.flash('error', 'The user with this email already exists. Please login.');
-            res.redirect("/login");
-        }
-        else{
-        const newUser = new User({ username, email, password });
-        await newUser.save();
-        req.login(newUser, err => {
-            if (err) return next(err);
-            req.flash('success', 'Welcome to WonderWithUs!');
-            res.redirect('/listings');
-        });
-    }
-    } catch (err) {
-        req.flash('error', 'Could not create user.');
-        console.log(err);
-        console.log("Could not create user");
-        res.redirect('/signup');
-    }
-});
-
-app.get("/login", (req, res) => {
-    res.render("user/login.ejs");
-})
-
-app.post('/login', passport.authenticate('local', {
-    failureRedirect: '/login',
-    failureFlash: 'Invalid username or password.'
-}), (req, res) => {
-    req.flash('success', 'Welcome back!');
-    res.redirect('/listings');
-});
-
-// Route to handle logging out
-app.post('/logout', (req, res) => {
-    req.logout((err) => {
-        if (err) {
-            // Handle the error if any
-            return next(err);
-        }
-        req.flash('success', 'You have been logged out');
-        res.redirect('/listings'); // Redirect to home page or any other page
-    });
-});
+app.use("/", userRouter)
 
 
 app.use((req, res, next) => {
@@ -206,6 +116,6 @@ app.use((err, req, res, next) => {
     res.render("errors/error", {status: status.toString().split(''), message});
 })
 
-app.listen(3000, () => {
+app.listen(8080, () => {
     console.log("Server is listening");
 })
